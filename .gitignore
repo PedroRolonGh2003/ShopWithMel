@@ -1,0 +1,32 @@
+# Dependencias
+node_modules/
+*/node_modules/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Build
+client/dist/
+server/dist/
+
+# Certificados (no se suben a git)
+certs/
+*.pem
+
+# Datos generados
+data/ventas.xlsx
+server/data/ventas.xlsx
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editores
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

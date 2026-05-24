@@ -45,11 +45,12 @@ shop-with-mel/
 
 1. Crea un servicio MySQL en https://console.aiven.io
 2. Descarga el certificado **CA** desde el panel y guárdalo en `./certs/aiven-ca.pem`
-3. Corre el esquema (te lo entregaron en `schema.sql`):
+3. En **MySQL Workbench** (local): abre y ejecuta `database/schema.sql`.
+4. En **Aiven**: comenta `CREATE DATABASE` / `USE` en ese archivo, selecciona `defaultdb` y ejecuta el resto. O:
    ```bash
    mysql -h <host> -P <port> -u avnadmin -p \
          --ssl-mode=VERIFY_CA --ssl-ca=./certs/aiven-ca.pem \
-         defaultdb < schema.sql
+         defaultdb < database/schema.sql
    ```
 
 ### 2. Variables de entorno

@@ -111,7 +111,7 @@ CREATE TABLE sales (
 CREATE TABLE sale_items (
   id           INT UNSIGNED   NOT NULL AUTO_INCREMENT,
   sale_id      INT UNSIGNED   NOT NULL,
-  product_id   INT UNSIGNED   NOT NULL,
+  product_id   INT UNSIGNED   NULL,
   product_name VARCHAR(200)   NOT NULL,
   quantity     INT UNSIGNED   NOT NULL,
   unit_price   DECIMAL(10, 2) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE sale_items (
     ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_sale_items_product
     FOREIGN KEY (product_id) REFERENCES products (id)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
+    ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT chk_sale_items_qty_price
     CHECK (quantity > 0 AND unit_price >= 0 AND line_total >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -2,6 +2,7 @@ const express = require('express');
 const { getPool } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { appendSaleToExcel } = require('../excel');
+const { removeProductIfOutOfStock } = require('../productStock');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -119,7 +120,7 @@ router.post('/', async (req, res) => {
 
       const [products] = await conn.query(
         `SELECT id, name, price, stock FROM products
-         WHERE id = :id AND is_active = 1 FOR UPDATE`,
+         WHERE id = :id AND is_active = 1 AND stock > 0 FOR UPDATE`,
         { id: productId }
       );
 
@@ -193,6 +194,8 @@ router.post('/', async (req, res) => {
         `UPDATE products SET stock = stock - :qty WHERE id = :id`,
         { qty: line.quantity, id: line.product_id }
       );
+
+      await removeProductIfOutOfStock(conn, line.product_id);
     }
 
     await conn.commit();

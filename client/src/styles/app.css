@@ -360,40 +360,6 @@ textarea {
   color: var(--muted);
 }
 
-.db-status {
-  font-size: 0.8rem;
-  padding: 0.55rem 0.75rem;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  margin-bottom: 0.75rem;
-}
-
-.db-status.compact {
-  margin-bottom: 0;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.72rem;
-}
-
-.db-status.ok {
-  background: #e8f8f0;
-  border: 1px solid #b8e6cc;
-  color: #1a6b45;
-}
-
-.db-status.error {
-  background: #ffeaea;
-  border: 1px solid #f5c4c4;
-  color: var(--danger);
-}
-
-.db-status span {
-  color: inherit;
-  opacity: 0.9;
-  font-weight: 400;
-}
-
 .page--gallery {
   max-width: 640px;
 }

@@ -6,7 +6,6 @@ import SalePage from './components/SalePage';
 import ProductsPage from './components/ProductsPage';
 import ClientsPage from './components/ClientsPage';
 import HistoryPage from './components/HistoryPage';
-import DbStatus from './components/DbStatus';
 
 export default function App() {
   const [user, setUser] = useState(() => (getToken() ? getUser() : null));
@@ -30,7 +29,6 @@ export default function App() {
             Salir
           </button>
         </div>
-        <DbStatus compact />
       </header>
 
       {tab === 'sale' && <SalePage />}

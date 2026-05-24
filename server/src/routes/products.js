@@ -1,6 +1,7 @@
 const express = require('express');
 const { getPool } = require('../db');
 const { requireAuth } = require('../middleware/auth');
+const { removeProductIfOutOfStock } = require('../productStock');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -28,7 +29,7 @@ function validateImage(imageUrl) {
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await getPool().query(
-      `SELECT ${PRODUCT_FIELDS} FROM products WHERE is_active = 1 ORDER BY name ASC`
+      `SELECT ${PRODUCT_FIELDS} FROM products WHERE is_active = 1 AND stock > 0 ORDER BY name ASC`
     );
     res.json(rows);
   } catch (err) {
@@ -62,10 +63,16 @@ router.post('/', async (req, res) => {
       }
     );
 
+    const newId = result.insertId;
+    await removeProductIfOutOfStock(getPool(), newId);
+
     const [rows] = await getPool().query(
       `SELECT ${PRODUCT_FIELDS} FROM products WHERE id = :id`,
-      { id: result.insertId }
+      { id: newId }
     );
+    if (rows.length === 0) {
+      return res.status(201).json({ removed: true, id: newId });
+    }
     res.status(201).json(rows[0]);
   } catch (err) {
     if (err.message === 'La imagen es demasiado grande (máx ~1 MB)' || err.message === 'Formato de imagen no válido') {
@@ -130,10 +137,15 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
 
+    await removeProductIfOutOfStock(getPool(), id);
+
     const [rows] = await getPool().query(
       `SELECT ${PRODUCT_FIELDS} FROM products WHERE id = :id`,
       { id }
     );
+    if (rows.length === 0) {
+      return res.json({ removed: true, id });
+    }
     res.json(rows[0]);
   } catch (err) {
     if (err.message === 'La imagen es demasiado grande (máx ~1 MB)' || err.message === 'Formato de imagen no válido') {
@@ -153,11 +165,17 @@ router.delete('/:id', async (req, res) => {
 
   try {
     const [result] = await getPool().query(
-      `UPDATE products SET is_active = 0 WHERE id = :id AND is_active = 1`,
+      `DELETE FROM products WHERE id = :id AND is_active = 1`,
       { id }
     );
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Producto no encontrado' });
+      const [soft] = await getPool().query(
+        `UPDATE products SET is_active = 0 WHERE id = :id AND is_active = 1`,
+        { id }
+      );
+      if (soft.affectedRows === 0) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+      }
     }
     res.status(204).send();
   } catch (err) {

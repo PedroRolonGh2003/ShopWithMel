@@ -111,7 +111,7 @@ export default function ProductsPage() {
     <div className="page page--gallery">
       <header className="page-header">
         <h1>Productos</h1>
-        <p>{products.length} activos · precios en bolivianos</p>
+        <p>{products.length} en inventario</p>
       </header>
 
       <button type="button" className="btn btn-primary" onClick={openCreate}>
@@ -210,7 +210,6 @@ export default function ProductsPage() {
                     />
                   </label>
                 </div>
-                <p className="field-hint">En el celular, &quot;Tomar foto&quot; abre la cámara.</p>
                 {imageError && <p className="field-hint field-hint--error">{imageError}</p>}
                 {form.image_url && (
                   <div className="image-preview-wrap">

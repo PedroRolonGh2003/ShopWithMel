@@ -42,15 +42,7 @@ async function request(path, options = {}) {
   return data;
 }
 
-export async function getHealth() {
-  const res = await fetch('/api/health');
-  const data = await res.json();
-  return data;
-}
-
 export const api = {
-  getHealth,
-
   login: (email, password) =>
     request('/auth/login', {
       method: 'POST',

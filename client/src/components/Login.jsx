@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { api, setSession } from '../api';
-import DbStatus from './DbStatus';
 
 export default function Login({ onSuccess }) {
   const [email, setEmail] = useState('mel@shopwithmel.com');
@@ -29,8 +28,6 @@ export default function Login({ onSuccess }) {
         <div className="login-logo">🍬</div>
         <h1>Shop With Mel</h1>
         <p className="subtitle">Gestión de ventas</p>
-
-        <DbStatus />
 
         {error && <div className="error-banner">{error}</div>}
 

@@ -62,6 +62,7 @@ export default function ProductsPage() {
       setForm((prev) => ({ ...prev, image_url: dataUrl, clear_image: false }));
     } catch (err) {
       setImageError(err.message);
+    } finally {
       e.target.value = '';
     }
   }
@@ -188,7 +189,28 @@ export default function ProductsPage() {
               </div>
               <div className="field">
                 <label>Imagen</label>
-                <input type="file" accept="image/*" onChange={handleImageChange} />
+                <div className="image-source-btns">
+                  <label className="btn btn-secondary btn-sm image-file-label">
+                    📁 Archivo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="image-file-input"
+                      onChange={handleImageChange}
+                    />
+                  </label>
+                  <label className="btn btn-secondary btn-sm image-file-label">
+                    📷 Tomar foto
+                    <input
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      className="image-file-input"
+                      onChange={handleImageChange}
+                    />
+                  </label>
+                </div>
+                <p className="field-hint">En el celular, &quot;Tomar foto&quot; abre la cámara.</p>
                 {imageError && <p className="field-hint field-hint--error">{imageError}</p>}
                 {form.image_url && (
                   <div className="image-preview-wrap">

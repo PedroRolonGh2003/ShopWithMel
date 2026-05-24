@@ -670,6 +670,31 @@ textarea {
   border: 1px solid var(--border);
 }
 
+.image-source-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.image-file-label {
+  flex: 1;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .field-hint {
   margin: 0.35rem 0 0;
   font-size: 0.8rem;

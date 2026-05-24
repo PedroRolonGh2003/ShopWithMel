@@ -510,12 +510,23 @@ textarea {
   margin-bottom: 1rem;
 }
 
-.client-combobox label {
-  display: block;
+.client-combobox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.client-combobox-header label {
   font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 0.35rem;
   color: var(--muted);
+  margin: 0;
+}
+
+.client-combobox-field {
+  position: relative;
 }
 
 .client-combobox-input {
@@ -532,10 +543,16 @@ textarea {
   border-color: var(--pink);
 }
 
+.client-option--new {
+  color: var(--pink-dark);
+  font-weight: 600;
+}
+
 .client-combobox-clear {
   position: absolute;
   right: 0.5rem;
-  bottom: 0.45rem;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
   background: var(--pink-light);
   color: var(--pink-dark);
